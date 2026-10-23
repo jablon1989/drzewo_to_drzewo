@@ -63,6 +63,10 @@ function Shell() {
           <span aria-hidden>🏆</span>
           Scores
         </NavLink>
+        <a href="https://pusiaczkowo.pl" title="All our apps">
+          <span aria-hidden>🏠</span>
+          Pusiaczkowo
+        </a>
         <button className="tab-player" onClick={session.logout} title="Log out">
           <span aria-hidden>👤</span>
           {session.player}
