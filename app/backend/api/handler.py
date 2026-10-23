@@ -30,6 +30,7 @@ from botocore.config import Config
 from botocore.exceptions import ClientError
 
 import game
+import notify
 import players
 
 log = logging.getLogger()
@@ -180,6 +181,17 @@ def optional_position(body: dict) -> dict:
     if isinstance(lat, int | float) and isinstance(lon, int | float) and -90 <= lat <= 90 and -180 <= lon <= 180:
         return {"lat": to_decimal(lat), "lon": to_decimal(lon)}
     return {}
+
+
+def read_thumb(photo_id: str | None) -> bytes | None:
+    """The small JPEG (no EXIF), for e-mails."""
+    if not photo_id:
+        return None
+    try:
+        return _s3.get_object(Bucket=PHOTOS_BUCKET, Key=thumb_key(photo_id))["Body"].read()
+    except ClientError:
+        log.warning("Thumbnail %s not found", photo_id)
+        return None
 
 
 def scan_all(table, **kwargs) -> list[dict]:
@@ -379,6 +391,8 @@ def create_challenge(event: dict, params: dict) -> dict:
         item["note"] = note.strip()
     challenges_table.put_item(Item=item)
     put_find(me, tree["id"], photo_id, "hide", body, challenge_id)
+    if notify.enabled():
+        notify.new_challenge(item, read_thumb(photo_id))
     return response(201, challenge_view(item, me))
 
 
@@ -437,6 +451,9 @@ def create_guess(event: dict, params: dict) -> dict:
         raise
 
     put_find(me, guess_tree["id"], photo_id, "solve" if correct else "guess", body, c["challenge_id"])
+    if correct and notify.enabled():
+        wrong = sum(1 for g in updated.get("guesses", []) if not g.get("correct"))
+        notify.solved(updated, game.solve_points(wrong, len(updated.get("hints", []))), read_thumb(photo_id))
     return response(
         200,
         {
@@ -493,6 +510,7 @@ def give_up(event: dict, params: dict) -> dict:
         ExpressionAttributeValues={":gave_up": "gave_up", ":me": me, ":now": now_iso(), ":open": "open"},
         ReturnValues="ALL_NEW",
     )["Attributes"]
+    notify.gave_up(updated)
     return response(200, challenge_view(updated, me))
 
 
