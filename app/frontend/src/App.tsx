@@ -9,6 +9,7 @@ const MapPage = lazy(() => import("./pages/MapPage"));
 const ChallengesPage = lazy(() => import("./pages/ChallengesPage"));
 const ChallengePage = lazy(() => import("./pages/ChallengePage"));
 const ScoresPage = lazy(() => import("./pages/ScoresPage"));
+const StatsPage = lazy(() => import("./pages/StatsPage"));
 const TreePage = lazy(() => import("./pages/TreePage"));
 
 export function App() {
@@ -38,6 +39,7 @@ function Shell() {
             <Route path="/hunt" element={<ChallengesPage />} />
             <Route path="/hunt/:challengeId" element={<ChallengePage />} />
             <Route path="/scores" element={<ScoresPage />} />
+            <Route path="/trees" element={<StatsPage />} />
             <Route path="/trees/:treeId" element={<TreePage />} />
             <Route path="*" element={<div className="center-screen muted">Page not found</div>} />
           </Routes>
@@ -52,6 +54,10 @@ function Shell() {
           <span aria-hidden>🐺</span>
           Hide &amp; seek
           {toFind > 0 && <span className="badge">{toFind}</span>}
+        </NavLink>
+        <NavLink to="/trees" end>
+          <span aria-hidden>🌳</span>
+          Trees
         </NavLink>
         <NavLink to="/scores">
           <span aria-hidden>🏆</span>
