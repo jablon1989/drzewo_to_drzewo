@@ -23,7 +23,8 @@ variable "github_sub_prefix" {
     see: gh api repos/<owner>/<name>/actions/oidc/customization/sub (sub_claim_prefix).
   EOT
   type        = string
-  default     = null
+  # This repo uses the immutable format (gh api repos/jablon1989/park_game/actions/oidc/customization/sub).
+  default = "repo:jablon1989@89132335/park_game@1427470045"
 }
 
 variable "github_environment" {
