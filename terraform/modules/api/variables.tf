@@ -54,7 +54,7 @@ variable "log_retention_days" {
 
 
 variable "notify_from" {
-  description = "Sender of the game's e-mails, e.g. \"Aura's Tree Hunt <game@pusiaczkowo.pl>\". Empty = no e-mails."
+  description = "Sender of the game's e-mails, e.g. \"Drzewo to Drzewo <game@pusiaczkowo.pl>\". Empty = no e-mails."
   type        = string
   default     = ""
 }

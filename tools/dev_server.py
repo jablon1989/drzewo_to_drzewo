@@ -163,7 +163,7 @@ def main() -> None:
         import notify
 
         # E-mails: print them instead of sending.
-        notify.NOTIFY_FROM = "Aura's Tree Hunt <game@pusiaczkowo.pl>"
+        notify.NOTIFY_FROM = "Drzewo to Drzewo <game@pusiaczkowo.pl>"
         notify.SITE_URL = "http://localhost:5173"
         notify.send = lambda msg: print(
             f"  📧 to {msg['To']}: {msg['Subject']}\n"

@@ -19,7 +19,7 @@ import players
 
 log = logging.getLogger()
 
-# "Aura's Tree Hunt <game@pusiaczkowo.pl>"; empty = e-mails switched off.
+# "Drzewo to Drzewo <game@pusiaczkowo.pl>"; empty = e-mails switched off.
 NOTIFY_FROM = os.environ.get("NOTIFY_FROM", "")
 SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 

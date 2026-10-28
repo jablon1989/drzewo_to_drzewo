@@ -7,7 +7,7 @@ def outbox(aws, monkeypatch):
     import notify
 
     sent = []
-    monkeypatch.setattr(notify, "NOTIFY_FROM", "Aura's Tree Hunt <game@pusiaczkowo.pl>")
+    monkeypatch.setattr(notify, "NOTIFY_FROM", "Drzewo to Drzewo <game@pusiaczkowo.pl>")
     monkeypatch.setattr(notify, "player_emails", lambda: {"Bartosz": "b@example.com", "Asia": "a@example.com"})
     monkeypatch.setattr(notify, "SITE_URL", "https://park.pusiaczkowo.pl")
     monkeypatch.setattr(notify, "send", sent.append)
@@ -32,7 +32,7 @@ def test_new_challenge_emails_the_other_player_with_photo(aws, outbox):
     assert len(outbox) == 1
     msg = outbox[0]
     assert msg["To"] == "a@example.com"
-    assert msg["From"] == "Aura's Tree Hunt <game@pusiaczkowo.pl>"
+    assert msg["From"] == "Drzewo to Drzewo <game@pusiaczkowo.pl>"
     assert "Bartosz hid a tree for you" in msg["Subject"]
     body = text_of(msg)
     assert "Near the pond" in body

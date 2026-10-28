@@ -45,7 +45,7 @@ variable "domain_zone" {
 variable "notify_from" {
   description = "Sender of the game's e-mails (domain verified in SES by jablon1989/aura-the-husky). null = no e-mails."
   type        = string
-  default     = "Aura's Tree Hunt <game@pusiaczkowo.pl>"
+  default     = "Drzewo to Drzewo <game@pusiaczkowo.pl>"
 }
 
 

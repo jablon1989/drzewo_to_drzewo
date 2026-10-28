@@ -7,7 +7,7 @@ export function LoginPage() {
     <div className="login">
       <div className="login-card">
         <img src="/favicon.svg" alt="" width={64} height={64} />
-        <h1>Aura's Tree Hunt</h1>
+        <h1>Drzewo to Drzewo</h1>
         <p className="muted">Hide-and-seek with trees in Park Południowy.</p>
         {devPlayers ? (
           <>

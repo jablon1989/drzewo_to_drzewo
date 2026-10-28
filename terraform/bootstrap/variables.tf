@@ -13,7 +13,7 @@ variable "region" {
 variable "github_repository" {
   description = "GitHub repository allowed to deploy, as owner/name."
   type        = string
-  default     = "jablon1989/park_game"
+  default     = "jablon1989/drzewo_to_drzewo"
 }
 
 variable "github_sub_prefix" {
@@ -23,8 +23,8 @@ variable "github_sub_prefix" {
     see: gh api repos/<owner>/<name>/actions/oidc/customization/sub (sub_claim_prefix).
   EOT
   type        = string
-  # This repo uses the immutable format (gh api repos/jablon1989/park_game/actions/oidc/customization/sub).
-  default = "repo:jablon1989@89132335/park_game@1427470045"
+  # This repo uses the immutable format (gh api repos/jablon1989/drzewo_to_drzewo/actions/oidc/customization/sub).
+  default = "repo:jablon1989@89132335/drzewo_to_drzewo@1427470045"
 }
 
 variable "github_environment" {

@@ -1,4 +1,4 @@
-# Aura's Tree Hunt – Park Południowy
+# Drzewo to Drzewo – Park Południowy
 
 A two-player hide-and-seek game with trees, played with our husky Aura in
 Park Południowy, Wrocław. Runs serverless on AWS, built with Terraform,
@@ -12,7 +12,7 @@ same setup as [Our Trips](../photo_gallery).
   and say which tree you're at. A wrong guess tells you how far off you are
   ("97 m – cool"). Stuck? Buy a hint: species, a 40 m circle on the map, or the
   number on the tree's plate. Or give up.
-- **Tree hunt 🗺️**: a tree is **done** only when it's found as the other
+- **Hunt 🗺️**: a tree is **done** only when it's found as the other
   player's hidden tree (the right guess). Hiding a tree or a wrong guess marks
   nothing, and there's no way to mark a tree yourself. The map shows all 3,046
   trees of the park: **grey** = not done yet, **green** = done. Filter by player.
