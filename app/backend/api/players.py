@@ -19,6 +19,8 @@ log = logging.getLogger()
 
 USER_POOL_ID = os.environ.get("USER_POOL_ID", "")
 CACHE_SECONDS = 300
+# Friends invited to reps only (reps.pusiaczkowo.pl): not part of this app.
+REPS_ONLY_GROUP = "reps-only"
 
 _cache: tuple[float, dict[str, str]] | None = None
 
@@ -29,14 +31,23 @@ def _from_env() -> dict[str, str]:
     return {name: emails.get(name, "") for name in names} | emails
 
 
+def _reps_only(client) -> set[str]:
+    try:
+        pages = client.get_paginator("list_users_in_group").paginate(UserPoolId=USER_POOL_ID, GroupName=REPS_ONLY_GROUP)
+        return {user["Username"] for page in pages for user in page["Users"]}
+    except client.exceptions.ResourceNotFoundException:
+        return set()  # group not created yet
+
+
 def _from_cognito() -> dict[str, str]:
     import boto3
 
     client = boto3.client("cognito-idp", region_name=os.environ.get("AWS_REGION", "eu-central-1"))
     out: dict[str, str] = {}
+    skip = _reps_only(client)
     for page in client.get_paginator("list_users").paginate(UserPoolId=USER_POOL_ID):
         for user in page["Users"]:
-            if not user.get("Enabled", True):
+            if not user.get("Enabled", True) or user["Username"] in skip:
                 continue
             attrs = {a["Name"]: a["Value"] for a in user.get("Attributes", [])}
             name = attrs.get("name") or attrs.get("email")

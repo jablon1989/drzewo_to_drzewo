@@ -80,7 +80,7 @@ data "aws_iam_policy_document" "api" {
   # Who plays: names + e-mails of the shared login's users.
   statement {
     sid       = "ListPlayers"
-    actions   = ["cognito-idp:ListUsers"]
+    actions   = ["cognito-idp:ListUsers", "cognito-idp:ListUsersInGroup"]
     resources = [var.user_pool_arn]
   }
 

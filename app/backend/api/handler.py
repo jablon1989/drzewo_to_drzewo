@@ -546,11 +546,27 @@ ROUTES: dict[str, Callable[[dict, dict], dict]] = {
 }
 
 
+# Friends invited to reps (reps.pusiaczkowo.pl) share the pusiaczkowo.pl login
+# but not the other apps: their login is in this Cognito group.
+REPS_ONLY_GROUP = "reps-only"
+
+
+def login_groups(event: dict) -> set[str]:
+    claims = event.get("requestContext", {}).get("authorizer", {}).get("jwt", {}).get("claims", {})
+    raw = claims.get("cognito:groups") or ""
+    if isinstance(raw, list):
+        return {str(g) for g in raw}
+    # API Gateway passes list claims as text: "[a b]".
+    return set(str(raw).strip("[]").replace(",", " ").split())
+
+
 def handler(event: dict, context: Any = None) -> dict:
     route = event.get("routeKey", "")
     fn = ROUTES.get(route)
     if not fn:
         return response(404, {"message": f"No route {route}"})
+    if REPS_ONLY_GROUP in login_groups(event):
+        return response(403, {"message": "This login is only for reps.pusiaczkowo.pl"})
     try:
         return fn(event, event.get("pathParameters") or {})
     except ApiError as err:

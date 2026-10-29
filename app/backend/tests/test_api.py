@@ -168,3 +168,9 @@ def test_cancel(aws, challenge):
 def test_challenge_not_found(aws):
     assert call(aws, "GET /api/challenges/{challengeId}", challengeId="f" * 32)[0] == 404
     assert call(aws, "GET /api/challenges/{challengeId}", challengeId="../../x")[0] == 404
+
+
+def test_reps_only_login_is_turned_away(aws):
+    claims = {"name": "Friend", "cognito:groups": "[reps reps-only]"}
+    event = {"routeKey": "GET /api/me", "requestContext": {"authorizer": {"jwt": {"claims": claims}}}}
+    assert aws.handler(event)["statusCode"] == 403

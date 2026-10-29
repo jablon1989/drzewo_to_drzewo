@@ -50,3 +50,17 @@ def test_without_pool_uses_env(monkeypatch):
     monkeypatch.setenv("PLAYER_EMAILS", '{"A": "a@x"}')
     assert players.names() == ["A", "B"]
     assert players.emails() == {"A": "a@x"}
+
+
+def test_reps_only_friends_are_not_players(pool):
+    players, client, pool_id = pool
+    client.admin_create_user(
+        UserPoolId=pool_id,
+        Username="friend@example.com",
+        UserAttributes=[{"Name": "email", "Value": "friend@example.com"}, {"Name": "name", "Value": "Friend"}],
+    )
+    assert "Friend" in players.names()  # no reps-only group yet: nobody is skipped
+    client.create_group(UserPoolId=pool_id, GroupName="reps-only")
+    client.admin_add_user_to_group(UserPoolId=pool_id, Username="friend@example.com", GroupName="reps-only")
+    players._cache = None
+    assert players.names() == ["Asiulka", "Bartosz"]
