@@ -90,6 +90,7 @@ export default function ScoresPage() {
           ))}
         </ul>
       </section>
+      <p className="app-version small muted">drzewo_to_drzewo {__APP_VERSION__}</p>
     </div>
   );
 }

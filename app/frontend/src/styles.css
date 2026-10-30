@@ -908,3 +908,9 @@ a {
     letter-spacing: -0.02em;
   }
 }
+
+/* The app's version (package.json), small and out of the way. */
+.app-version {
+  margin: 24px 0 0;
+  text-align: center;
+}

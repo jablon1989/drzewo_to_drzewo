@@ -1,4 +1,5 @@
 import react from "@vitejs/plugin-react";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { defineConfig, loadEnv } from "vite";
 
@@ -13,6 +14,9 @@ export default defineConfig(({ mode }) => {
   const local = target?.startsWith("http://localhost");
   return {
     plugins: [react()],
+    // The app's version (package.json), shown in the app. Each change adds 0.0.1;
+    // the deploy workflow tags it as v<version> on GitHub.
+    define: { __APP_VERSION__: JSON.stringify(JSON.parse(readFileSync("package.json", "utf8")).version) },
     resolve: { alias: { "@data": dataDir } },
     build: { chunkSizeWarningLimit: 600 }, // the tree list is ~540 kB (130 kB gzipped), loaded once
     server: {
