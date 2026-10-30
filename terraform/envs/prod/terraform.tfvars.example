@@ -1,8 +1,0 @@
-# Copy to terraform.tfvars (gitignored) and fill in.
-# Players (names + logins) come from the shared login in jablon1989/aura-the-husky.
-alert_email        = "you@example.com"
-monthly_budget_usd = 5
-
-# The game runs on park.pusiaczkowo.pl (shared zone + certificate from
-# jablon1989/aura-the-husky). To use only the *.cloudfront.net address:
-# domain_name = null
